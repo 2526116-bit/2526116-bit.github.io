@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conlang Documentation Template</title>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #222222;
+            --accent-color: #0066cc;
+            --muted-color: #666666;
+            --border-color: #e0e0e0;
+            --code-bg: #f4f4f4;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        header {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        h1, h2, h3 {
+            color: var(--text-color);
+            font-weight: 700;
+        }
+        h1 { margin-bottom: 0.5rem; }
+        .subtitle {
+            color: var(--muted-color);
+            font-size: 1.2rem;
+            margin-top: 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav a:hover { text-decoration: underline; }
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        th { background-color: var(--code-bg); }
+        .ipa {
+            font-family: "Charis SIL", "Doulos SIL", "Lucida Sans Unicode", sans-serif;
+            color: var(--accent-color);
+        }
+        .example {
+            background-color: var(--code-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+        }
+        .gloss {
+            font-variant: small-caps;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Language Name</h1>
+        <p class="subtitle">A constructed language by Your Name</p>
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#phonology">Phonology</a></li>
+                <li><a href="#grammar">Grammar</a></li>
+                <li><a href="#vocabulary">Vocabulary</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="overview">
+            <h2>1. Overview</h2>
+            <p>Introduce your conlang here. Explain its purpose, fictional background, cultural context, or design goals.</p>
+            <p><strong>Typology:</strong> Subject-Verb-Object (SVO), Agglutinative, Nominative-Accusative.</p>
+        </section>
+
+        <section id="phonology">
+            <h2>2. Phonology</h2>
+            <h3>Consonants</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Bilabial</th>
+                        <th>Alveolar</th>
+                        <th>Velar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Nasal</th>
+                        <td><span class="ipa">m</span></td>
+                        <td><span class="ipa">n</span></td>
+                        <td><span class="ipa">ŋ</span></td>
+                    </tr>
+                    <tr>
+                        <th>Plosive</th>
+                        <td><span class="ipa">p</span> | <span class="ipa">b</span></td>
+                        <td><span class="ipa">t</span> | <span class="ipa">d</span></td>
+                        <td><span class="ipa">k</span> | <span class="ipa">g</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Vowels</h3>
+            <p>Describe your vowel inventory and phonotactics (syllable structure rules like CV, CVC) here.</p>
+        </section>
+
+        <section id="grammar">
+            <h2>3. Grammar</h2>
+            <h3>Nouns</h3>
+            <p>Explain noun classes, genders, number markers, or case declensions.</p>
+            
+            <h3>Verbs</h3>
+            <p>Detail tense, aspect, mood, and person agreements.</p>
+
+            <h3>Example Sentence</h3>
+            <div class="example">
+                <p><strong>Conlang:</strong> Native text or romanization here.</p>
+                <p><strong>IPA:</strong> <span class="ipa">/ɪɡˈzæmpəl ˈsentəns/</span></p>
+                <p><strong>Gloss:</strong> word-<span class="gloss">pst</span> word-<span class="gloss">acc</span></p>
+                <p><strong>Literal Translation:</strong> "The target meaning in English."</p>
+            </div>
+        </section>
+
+        <section id="vocabulary">
+            <h2>4. Vocabulary</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>POS</th>
+                        <th>Definition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Word 1</strong></td>
+                        <td><em>n.</em></td>
+                        <td>First definition.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Word 2</strong></td>
+                        <td><em>v.</em></td>
+                        <td>Second definition.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</body>
+</html>
