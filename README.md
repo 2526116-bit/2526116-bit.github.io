@@ -3,3 +3,4 @@ Buat tugas informatika :)
 
 
 Coba ke sini https://2526116-bit.github.io/index.html
+kalo sampe ga bisa, CTRL + F5 di https://2526116-bit.github.io/
