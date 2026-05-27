@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Terminologi Penting — Panduan Bahasa Buatan</title>
+
+  <!-- =====================================================
+       FONTS — sama dengan index.html
+       Merriweather  → teks utama / prosa
+       Roboto        → tabel, istilah, label UI
+       ===================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       DESIGN TOKENS — salin dari index.html; ubah di sini
+       untuk retheme kedua halaman sekaligus
+       ===================================================== */
+    :root {
+      --color-bg:           #fdf8f0;
+      --color-bg-alt:       #f5ede0;
+      --color-bg-card:      #fffbf4;
+      --color-border:       #e0d5c4;
+      --color-text:         #1a1a1a;
+      --color-text-muted:   #5c5044;
+      --color-accent:       #6b4c2a;
+      --color-accent-light: #c8956a;
+      --color-link:         #7a4f1e;
+      --color-link-hover:   #4a2d0a;
+
+      --font-body:   'Merriweather', Georgia, serif;
+      --font-ui:     'Roboto', Arial, sans-serif;
+
+      --line-content: 75ch;
+      --font-size-base: 17px;
+      --line-height: 1.75;
+
+      --navbar-height: 58px;
+      --section-gap: 3.5rem;
+      --border-radius: 6px;
+    }
+
+    /* =====================================================
+       RESET & BASE — identik dengan index.html
+       ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--navbar-height) + 1.5rem);
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* =====================================================
+       NAVBAR
+       ===================================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--color-bg);
+      border-bottom: 1.5px solid var(--color-border);
+      height: var(--navbar-height);
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-inner {
+      max-width: calc(var(--line-content) + 4rem);
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .navbar-brand {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--color-accent);
+      text-decoration: none;
+      white-space: nowrap;
+      margin-right: 2rem;
+      letter-spacing: 0.01em;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .navbar-links a {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      padding: 0.35rem 0.7rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .navbar-links a:hover,
+    .navbar-links a[aria-current="page"] {
+      background-color: var(--color-bg-alt);
+      color: var(--color-accent);
+    }
+
+    .navbar-links .nav-back {
+      color: var(--color-accent);
+      border: 1px solid var(--color-accent-light);
+    }
+
+    .navbar-links .nav-back:hover {
+      background-color: var(--color-accent);
+      color: var(--color-bg);
+    }
+
+    /* Sub-navbar: lompat ke kategori terminologi di halaman ini */
+    .subnav {
+      background-color: var(--color-bg-alt);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.5rem 0;
+    }
+
+    .subnav-inner {
+      max-width: calc(var(--line-content) + 4rem);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .subnav-inner a {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .subnav-inner a:hover {
+      background-color: var(--color-bg);
+      color: var(--color-accent);
+    }
+
+    .subnav-inner::-webkit-scrollbar { display: none; }
+    .navbar-links::-webkit-scrollbar { display: none; }
+
+    /* =====================================================
+       LAYOUT
+       ===================================================== */
+    .page-wrapper {
+      max-width: calc(var(--line-content) + 4rem);
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    /* =====================================================
+       HERO
+       ===================================================== */
+    .page-hero {
+      padding: 3rem 0 2.5rem;
+      border-bottom: 1.5px solid var(--color-border);
+      margin-bottom: var(--section-gap);
+    }
+
+    .page-hero-label {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-hero .subtitle {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    /* =====================================================
+       KATEGORI SECTION
+       ===================================================== */
+    .section {
+      margin-bottom: var(--section-gap);
+    }
+
+    /* Judul kategori (H2) */
+    .section-heading {
+      font-family: var(--font-body);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1.25;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-bg-alt);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      max-width: var(--line-content);
+      text-align: left;
+    }
+
+    /* =====================================================
+       TABEL TERMINOLOGI
+       Tabel di halaman ini lebih kompak: kolom Istilah +
+       kolom Penjelasan. Font Roboto agar terasa seperti
+       referensi / kamus.
+       ===================================================== */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 0.5rem 0 1.5rem;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--color-border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      min-width: 480px;
+    }
+
+    thead tr {
+      background-color: var(--color-bg-alt);
+    }
+
+    thead th {
+      padding: 0.6rem 1rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      border-bottom: 1.5px solid var(--color-border);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--color-border);
+      transition: background 0.1s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background-color: var(--color-bg-alt); }
+
+    td {
+      padding: 0.65rem 1rem;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    /* Kolom istilah — bold, tidak wrap */
+    td:first-child {
+      font-weight: 700;
+      white-space: nowrap;
+      color: var(--color-accent);
+      min-width: 11rem;
+    }
+
+    /* Teks italic di dalam tabel (nama asing) */
+    td em { color: var(--color-text-muted); }
+
+    /* =====================================================
+       LINK
+       ===================================================== */
+    a {
+      color: var(--color-link);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    a:hover { color: var(--color-link-hover); }
+
+    /* =====================================================
+       FOOTER — identik dengan index.html
+       ===================================================== */
+    .footer {
+      margin-top: 5rem;
+      border-top: 1.5px solid var(--color-border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: var(--color-text-muted);
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .footer a { color: var(--color-text-muted); }
+
+    .footer-ai-note {
+      margin-top: 0.75rem;
+      padding: 0.6rem 1.25rem;
+      background-color: var(--color-bg-alt);
+      border-radius: 20px;
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.01em;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+    @media (max-width: 640px) {
+      .page-hero h1 { font-size: 1.7rem; }
+      .section-heading { font-size: 1.2rem; }
+      .page-wrapper { padding: 2rem 1.25rem; }
+      .navbar-inner, .subnav-inner { padding: 0 1.25rem; }
+      .navbar-brand { margin-right: 1rem; }
+      td:first-child { min-width: 8.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================================================
+       NAVBAR
+       ================================================== -->
+  <nav class="navbar" aria-label="Navigasi utama">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="index.html">Panduan Conlang</a>
+      <ul class="navbar-links" role="list">
+        <li><a href="index.html#apa-itu">Apa itu?</a></li>
+        <li><a href="index.html#fondasi">Fondasi</a></li>
+        <li><a href="index.html#tulisan">Sistem Tulisan</a></li>
+        <li><a href="index.html#sumber">Sumber Belajar</a></li>
+        <li><a href="index.html" class="nav-back">← Kembali</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sub-navbar: lompat ke kategori terminologi -->
+  <div class="subnav" aria-label="Lompat ke kategori">
+    <div class="subnav-inner">
+      <a href="#fonologi">Fonologi &amp; Fonetik</a>
+      <a href="#morfologi">Morfologi</a>
+      <a href="#sintaksis">Sintaksis</a>
+      <a href="#leksikon">Leksikon &amp; Semantik</a>
+      <a href="#conlanging">Conlanging</a>
+      <a href="#tipologi">Tipologi Bahasa</a>
+    </div>
+  </div>
+
+  <!-- ==================================================
+       KONTEN UTAMA
+       ================================================== -->
+  <main class="page-wrapper">
+
+    <!-- HERO -->
+    <header class="page-hero">
+      <p class="page-hero-label">Referensi</p>
+      <h1>Daftar Terminologi Penting</h1>
+      <p class="subtitle">
+        Kosakata linguistik yang berguna saat membangun bahasa buatan
+      </p>
+    </header>
+
+    <!-- ================================================
+         1. Fonologi & Fonetik
+         ================================================ -->
+    <section class="section" id="fonologi" aria-labelledby="heading-fonologi">
+      <h2 class="section-heading" id="heading-fonologi">Fonologi &amp; Fonetik</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Istilah</th><th>Padanan / Penjelasan</th></tr></thead>
+          <tbody>
+            <tr><td>Fonem <em>(phoneme)</em></td><td>Unit bunyi terkecil yang membedakan makna. /p/ dan /b/ adalah dua fonem berbeda.</td></tr>
+            <tr><td>Alofon <em>(allophone)</em></td><td>Variasi bunyi dari satu fonem yang tidak mengubah makna.</td></tr>
+            <tr><td>IPA</td><td><em>International Phonetic Alphabet</em> — sistem notasi bunyi standar dunia.</td></tr>
+            <tr><td>Fonotaktik <em>(phonotactics)</em></td><td>Aturan kombinasi bunyi yang diizinkan dalam sebuah bahasa.</td></tr>
+            <tr><td>Suku kata <em>(syllable)</em></td><td>Unit bunyi yang terdiri dari inti vokal (bisa + konsonan).</td></tr>
+            <tr><td>Onset</td><td>Konsonan di awal suku kata.</td></tr>
+            <tr><td>Koda <em>(coda)</em></td><td>Konsonan di akhir suku kata.</td></tr>
+            <tr><td>Nukleus</td><td>Inti suku kata, biasanya vokal.</td></tr>
+            <tr><td>Nada <em>(tone)</em></td><td>Tinggi-rendah nada suara yang membedakan makna (bahasa tonal).</td></tr>
+            <tr><td>Tekanan <em>(stress)</em></td><td>Penekanan pada suku kata tertentu dalam kata.</td></tr>
+            <tr><td>Vokal</td><td>Bunyi yang dihasilkan tanpa hambatan aliran udara (a, i, u, e, o).</td></tr>
+            <tr><td>Konsonan</td><td>Bunyi yang melibatkan hambatan aliran udara.</td></tr>
+            <tr><td>Frikatif <em>(fricative)</em></td><td>Konsonan geseran: f, v, s, z, h.</td></tr>
+            <tr><td>Plosif / Stop</td><td>Konsonan letup: p, b, t, d, k, g.</td></tr>
+            <tr><td>Nasal</td><td>Konsonan hidung: m, n, ng.</td></tr>
+            <tr><td>Lateral</td><td>Konsonan seperti "l".</td></tr>
+            <tr><td>Tril <em>(trill)</em></td><td>Konsonan getar seperti "r" bergulir.</td></tr>
+            <tr><td>Aspirasi</td><td>Hembusan nafas setelah konsonan (seperti "p" dalam "pin" bahasa Inggris).</td></tr>
+            <tr><td>Sandhi</td><td>Perubahan bunyi akibat kontak dengan bunyi tetangganya.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================
+         2. Morfologi
+         ================================================ -->
+    <section class="section" id="morfologi" aria-labelledby="heading-morfologi">
+      <h2 class="section-heading" id="heading-morfologi">Morfologi</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Istilah</th><th>Padanan / Penjelasan</th></tr></thead>
+          <tbody>
+            <tr><td>Morfem <em>(morpheme)</em></td><td>Unit makna terkecil. "me-makan-kan" = 3 morfem.</td></tr>
+            <tr><td>Morfem bebas</td><td>Morfem yang bisa berdiri sendiri sebagai kata (misal: "makan").</td></tr>
+            <tr><td>Morfem terikat</td><td>Morfem yang harus menempel pada morfem lain (misal: "me-", "-kan").</td></tr>
+            <tr><td>Afiks</td><td>Imbuhan secara umum.</td></tr>
+            <tr><td>Prefiks</td><td>Imbuhan di depan kata (me-, pe-, ber-).</td></tr>
+            <tr><td>Sufiks</td><td>Imbuhan di belakang kata (-kan, -an, -i).</td></tr>
+            <tr><td>Infiks</td><td>Imbuhan di tengah kata (tel-em-unjuk = telunjuk).</td></tr>
+            <tr><td>Sirkumfiks</td><td>Imbuhan mengapit (ke-...-an).</td></tr>
+            <tr><td>Infleksi <em>(inflection)</em></td><td>Perubahan bentuk kata untuk menyatakan gramatikal (waktu, jumlah, kasus) tanpa mengubah kelas kata.</td></tr>
+            <tr><td>Derivasi <em>(derivation)</em></td><td>Pembentukan kata baru dari kata yang ada; sering mengubah kelas kata.</td></tr>
+            <tr><td>Kasus gramatikal</td><td>Perubahan bentuk kata benda sesuai perannya (subjek, objek, dll.). Misal: nominatif, akusatif, datif.</td></tr>
+            <tr><td>Nominatif</td><td>Kasus untuk subjek kalimat.</td></tr>
+            <tr><td>Akusatif</td><td>Kasus untuk objek langsung.</td></tr>
+            <tr><td>Datif</td><td>Kasus untuk objek tidak langsung (penerima).</td></tr>
+            <tr><td>Genitif</td><td>Kasus kepemilikan.</td></tr>
+            <tr><td>Ergatif</td><td>Kasus khusus untuk pelaku verba transitif (berbeda dari nominatif).</td></tr>
+            <tr><td>Absolutif</td><td>Pasangan kasus ergatif — digunakan untuk subjek intransitif dan objek transitif.</td></tr>
+            <tr><td>Sistem ergatif-absolutif</td><td>Sistem kasus alternatif dari nominatif-akusatif; ditemukan di bahasa Basque dan sebagian bahasa Papua.</td></tr>
+            <tr><td>Genus gramatikal</td><td>Kategori gramatikal kata benda (maskulin/feminin/netral). Bisa tidak ada hubungannya dengan jenis kelamin biologis.</td></tr>
+            <tr><td>Kelas kata benda</td><td>Sistem pengelompokan kata benda (bisa lebih dari 2–3 kelas).</td></tr>
+            <tr><td>Agresi <em>(agreement)</em></td><td>Kesesuaian gramatikal antara elemen kalimat (kata sifat harus "setuju" dengan kata benda).</td></tr>
+            <tr><td>Reduplikasi</td><td>Pengulangan kata atau bagian kata untuk membentuk makna baru (rumah-rumah).</td></tr>
+            <tr><td>Komposisi <em>(compounding)</em></td><td>Pembentukan kata dari gabungan dua kata (sapu-tangan, matahari).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================
+         3. Sintaksis
+         ================================================ -->
+    <section class="section" id="sintaksis" aria-labelledby="heading-sintaksis">
+      <h2 class="section-heading" id="heading-sintaksis">Sintaksis</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Istilah</th><th>Padanan / Penjelasan</th></tr></thead>
+          <tbody>
+            <tr><td>SVO / SOV / VSO</td><td>Urutan dasar Subjek, Verba, Objek dalam kalimat.</td></tr>
+            <tr><td>Head-initial</td><td>Kepala frasa berada di awal (verba sebelum objek, kata benda sebelum modifikator).</td></tr>
+            <tr><td>Head-final</td><td>Kepala frasa berada di akhir (verba di akhir kalimat, seperti bahasa Jepang).</td></tr>
+            <tr><td>Frasa nominal <em>(NP)</em></td><td>Kelompok kata yang berpusat pada kata benda.</td></tr>
+            <tr><td>Frasa verbal <em>(VP)</em></td><td>Kelompok kata yang berpusat pada verba.</td></tr>
+            <tr><td>Klausa relatif</td><td>Klausa yang memodifikasi kata benda ("buku yang kubeli").</td></tr>
+            <tr><td>Klausa bawahan</td><td>Klausa yang bergantung pada klausa utama.</td></tr>
+            <tr><td>Topik <em>(topic)</em></td><td>Unsur kalimat yang dibicarakan (tidak selalu = subjek).</td></tr>
+            <tr><td>Fokus <em>(focus)</em></td><td>Unsur kalimat yang ditekankan sebagai informasi baru.</td></tr>
+            <tr><td>Ergatif (sintaksis)</td><td>Sistem di mana subjek verba transitif dan intransitif diperlakukan berbeda.</td></tr>
+            <tr><td>Pro-drop</td><td>Bahasa yang memperbolehkan subjek/objek dihilangkan jika sudah dipahami dari konteks (Indonesia dan Jepang adalah pro-drop).</td></tr>
+            <tr><td>Copula</td><td>Kata penghubung subjek dan predikat ("adalah", "merupakan"). Beberapa bahasa tidak punya copula!</td></tr>
+            <tr><td>Negasi</td><td>Cara menyatakan "tidak/bukan" secara gramatikal.</td></tr>
+            <tr><td>Modus <em>(mood)</em></td><td>Kategori gramatikal verba yang menyatakan sikap pembicara (indikatif/faktual, subjunktif/hipotetis, imperatif/perintah).</td></tr>
+            <tr><td>Aspek <em>(aspect)</em></td><td>Cara pandang terhadap durasi/kelengkapan suatu tindakan (selesai, sedang berlangsung, berulang).</td></tr>
+            <tr><td>Kala <em>(tense)</em></td><td>Penanda waktu gramatikal (lampau, kini, mendatang). Tidak semua bahasa punya kala gramatikal!</td></tr>
+            <tr><td>Evidensialitas</td><td>Sistem gramatikal yang menandai sumber informasi pembicara (melihat langsung, mendengar dari orang lain, menyimpulkan).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================
+         4. Leksikon & Semantik
+         ================================================ -->
+    <section class="section" id="leksikon" aria-labelledby="heading-leksikon">
+      <h2 class="section-heading" id="heading-leksikon">Leksikon &amp; Semantik</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Istilah</th><th>Padanan / Penjelasan</th></tr></thead>
+          <tbody>
+            <tr><td>Leksikon <em>(lexicon)</em></td><td>Total kosakata sebuah bahasa.</td></tr>
+            <tr><td>Lema <em>(lemma)</em></td><td>Bentuk kamus dari sebuah kata (bentuk dasar).</td></tr>
+            <tr><td>Sinonim</td><td>Kata berbeda dengan makna serupa.</td></tr>
+            <tr><td>Antonim</td><td>Kata dengan makna berlawanan.</td></tr>
+            <tr><td>Homonim</td><td>Kata berbunyi sama tapi bermakna berbeda.</td></tr>
+            <tr><td>Polisemi</td><td>Satu kata memiliki beberapa makna yang berkaitan.</td></tr>
+            <tr><td>Denotasi</td><td>Makna harfiah/kamus sebuah kata.</td></tr>
+            <tr><td>Konotasi</td><td>Makna tambahan/asosiasi emosional sebuah kata.</td></tr>
+            <tr><td>Kata pinjaman <em>(loanword)</em></td><td>Kata yang dipinjam dari bahasa lain.</td></tr>
+            <tr><td>Swadesh List</td><td>Daftar 100–207 kata inti yang ditemukan di hampir semua bahasa (Morris Swadesh). Titik awal terbaik untuk membangun kosakata.</td></tr>
+            <tr><td>Kata akar <em>(root)</em></td><td>Bentuk dasar yang menjadi fondasi keluarga kata.</td></tr>
+            <tr><td>Keluarga kata</td><td>Kelompok kata yang berasal dari akar yang sama.</td></tr>
+            <tr><td>Register</td><td>Variasi bahasa berdasarkan konteks sosial (formal, informal, teknis, puitis).</td></tr>
+            <tr><td>Honorifik</td><td>Sistem kata/imbuhan untuk menyatakan rasa hormat atau status sosial.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================
+         5. Conlanging
+         ================================================ -->
+    <section class="section" id="conlanging" aria-labelledby="heading-conlanging">
+      <h2 class="section-heading" id="heading-conlanging">Conlanging (Pembuatan Bahasa Buatan)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Istilah</th><th>Padanan / Penjelasan</th></tr></thead>
+          <tbody>
+            <tr><td>Conlang</td><td>Kependekan dari <em>constructed language</em> — bahasa buatan.</td></tr>
+            <tr><td>Conlanger</td><td>Orang yang membuat bahasa buatan.</td></tr>
+            <tr><td>A priori</td><td>Kosakata dibuat dari nol, tidak mengacu pada bahasa yang sudah ada.</td></tr>
+            <tr><td>A posteriori</td><td>Kosakata diambil atau diadaptasi dari bahasa yang sudah ada (seperti Esperanto dari bahasa-bahasa Eropa).</td></tr>
+            <tr><td>Naturalistic conlang</td><td>Bahasa buatan yang dirancang agar terasa seperti bahasa alami, lengkap dengan ketidak-regularan dan evolusi sejarah.</td></tr>
+            <tr><td>Engelang</td><td>Bahasa yang dirancang untuk tujuan teknis/logis tertentu; sering mengutamakan regularitas.</td></tr>
+            <tr><td>Artlang</td><td>Bahasa yang dibuat sebagai karya seni, sering untuk fiksi.</td></tr>
+            <tr><td>Auxlang</td><td><em>Auxiliary language</em> — bahasa buatan untuk komunikasi internasional.</td></tr>
+            <tr><td>Worldbuilding</td><td>Proses membangun dunia fiksi secara menyeluruh (termasuk bahasa, budaya, sejarah).</td></tr>
+            <tr><td>Lexember</td><td>Tradisi komunitas conlanger: membuat satu kata baru per hari sepanjang bulan Desember.</td></tr>
+            <tr><td>Relay</td><td>Kegiatan komunitas: satu teks diterjemahkan berantai oleh conlanger berbeda, menguji konsistensi bahasa.</td></tr>
+            <tr><td>Grammar sketch</td><td>Deskripsi singkat sistem gramatikal sebuah bahasa — biasanya dokumen pertama yang dibuat conlanger.</td></tr>
+            <tr><td>Gloss / Interlinear gloss</td><td>Anotasi teks kata per kata yang menjelaskan makna dan fungsi gramatikal setiap unsur.</td></tr>
+            <tr><td>Natlangs</td><td><em>Natural languages</em> — bahasa-bahasa alami (bukan buatan).</td></tr>
+            <tr><td>Natlang calque</td><td>Meniru struktur frasa/idiom bahasa alami tertentu ke dalam bahasa buatanmu.</td></tr>
+            <tr><td>Sound change</td><td>Perubahan bunyi sistematis dalam sejarah bahasa. Digunakan untuk menciptakan variasi dialek atau bahasa "proto".</td></tr>
+            <tr><td>Protolang</td><td>Bahasa leluhur hipotetis dari mana beberapa bahasa berevolusi.</td></tr>
+            <tr><td>Neography</td><td>Seni/praktik merancang sistem tulisan baru.</td></tr>
+            <tr><td>Con-script</td><td>Sistem tulisan buatan (<em>constructed script</em>).</td></tr>
+            <tr><td>Romanization</td><td>Penulisan bahasa non-Latin menggunakan alfabet Latin.</td></tr>
+            <tr><td>Transliteration</td><td>Konversi bunyi dari satu sistem tulisan ke sistem lain.</td></tr>
+            <tr><td>Nativeness</td><td>Seberapa "alami" terasa sebuah bahasa buatan.</td></tr>
+            <tr><td>ISO 639</td><td>Standar internasional untuk kode bahasa. Bahasa buatan bisa mendaftarkan kode resmi (misal: Esperanto = eo).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================
+         6. Tipologi Bahasa
+         ================================================ -->
+    <section class="section" id="tipologi" aria-labelledby="heading-tipologi">
+      <h2 class="section-heading" id="heading-tipologi">Tipologi Bahasa</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Istilah</th><th>Penjelasan</th></tr></thead>
+          <tbody>
+            <tr><td>Tipologi</td><td>Studi tentang pola dan kategori universal di antara bahasa-bahasa dunia.</td></tr>
+            <tr><td>Implikatif universal</td><td>Kecenderungan: jika bahasa punya fitur X, kemungkinan besar juga punya fitur Y. Berguna untuk membuat bahasa yang "masuk akal".</td></tr>
+            <tr><td>Parameter Greenberg</td><td>45 universal bahasa yang ditemukan Josef Greenberg — rujukan penting dalam tipologi.</td></tr>
+            <tr><td>Bahasa tonal</td><td>Bahasa yang menggunakan nada suara untuk membedakan makna kata.</td></tr>
+            <tr><td>Bahasa aglutinatif</td><td>Bahasa yang kata-katanya dibentuk dengan menempelkan morfem-morfem satu per satu.</td></tr>
+            <tr><td>Bahasa fusional</td><td>Bahasa di mana satu morfem bisa menyatakan banyak fungsi gramatikal.</td></tr>
+            <tr><td>Bahasa isolatif</td><td>Bahasa di mana kata tidak berubah bentuk; gramatikal dinyatakan melalui urutan kata dan partikel.</td></tr>
+            <tr><td>Bahasa polisintesis</td><td>Bahasa di mana kata-kata bisa sangat kompleks, setara dengan kalimat.</td></tr>
+            <tr><td>SOV universal</td><td>SOV adalah urutan kata yang paling umum di dunia (~45% bahasa).</td></tr>
+            <tr><td>Ergatif-absolutif</td><td>Sistem kasus alternatif dari nominatif-akusatif; lazim di Basque, Dzongkha, bahasa-bahasa Kaukasus.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================================================
+       FOOTER
+       ================================================== -->
+  <footer class="footer">
+    <div>
+      Panduan Bahasa Buatan &nbsp;·&nbsp;
+      <a href="index.html">Kembali ke halaman utama</a>
+    </div>
+    <div class="footer-ai-note">
+      🤖 Halaman ini dibuat dengan bantuan <strong>Claude (Anthropic)</strong> berdasarkan
+      dokumen sumber, dan mungkin mengandung ketidakakuratan. Selalu verifikasi informasi
+      dari sumber linguistik primer.
+    </div>
+  </footer>
+
+</body>
+</html>

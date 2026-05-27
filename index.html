@@ -1,259 +1,708 @@
 <!DOCTYPE html>
 <html lang="id">
-    <!-- kalo mau nambahin komen, pake "ctrl + /" -->
 <head>
-    <!-- Defines the character encoding for the document (UTF-8 handles almost all languages) -->
-    <meta charset="UTF-8">
-    <!-- Ensures the website scales correctly on mobile devices and responsive screens -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- untuk font Merriweather -->
-    <link href="https://googleapis.com" rel="stylesheet">
-    <title>Sumber Daya Bahasa Buatan</title>
-    
-    <style>
-        /* CSS RESET & GLOBAL STYLES */
-        * {
-            
-            /* Includes padding and borders in the total width/height calculations of elements */
-            box-sizing: border-box;
-            /* Removes default browser margins */
-            margin: 0;
-            /* Removes default browser padding */
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan Bahasa Buatan</title>
 
-        body {
-            font-size: 16px;
-            /* Sets the line spacing to 1.5 times the font size (24px) for optimal readability */
-            line-height: 1.5;
-            /* Uses a clean, modern sans-serif font stack */
-            font-family: 'Merriweather', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            /* Sets a light background color to reduce eye strain */
-            background-color: #f9f9f9;
-            /* Sets a dark gray color for text to create soft, readable contrast */
-            color: #333333;
-        }
+  <!-- =====================================================
+       FONTS
+       Merriweather  → teks utama / prosa
+       Roboto        → elemen bahasa: tabel, istilah, label
+       ===================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-        /* NAVIGATION BAR STYLES */
-        .navbar {
-            /* Sets a solid background color for the navigation area */
-            background-color: #fdfbf7;
-            /* Adds a subtle bottom shadow to separate the navbar from the content */
-            border-bottom: 1px solid #eaeaea;
-            /* Pins the navbar to the top of the viewport */
-            position: sticky;
-            top: 0;
-            /* Ensures the navbar stays on top of other content layers */
-            z-index: 100;
-        }
+  <style>
+    /* =====================================================
+       DESIGN TOKENS — ubah nilai di sini untuk retheme cepat
+       ===================================================== */
+    :root {
+      --color-bg:           #fdf8f0;   /* cream background */
+      --color-bg-alt:       #f5ede0;   /* cream sedikit lebih gelap (tabel header, dll.) */
+      --color-bg-card:      #fffbf4;   /* card / box */
+      --color-border:       #e0d5c4;   /* border halus */
+      --color-text:         #1a1a1a;   /* teks utama */
+      --color-text-muted:   #5c5044;   /* teks sekunder / muted */
+      --color-accent:       #6b4c2a;   /* cokelat tua — heading, link aktif */
+      --color-accent-light: #c8956a;   /* aksen terang */
+      --color-link:         #7a4f1e;   /* warna link */
+      --color-link-hover:   #4a2d0a;
 
-        .nav-container {
-            /* Limits the width of the navbar content to match standard layouts */
-            max-width: 1200px;
-            /* Centers the navbar container horizontally */
-            margin: 0 auto;
-            /* Adds spacing inside the navbar (15px top/bottom, 20px left/right) */
-            padding: 15px 20px;
-            /* Enables Flexbox to align the logo and links on the same row */
-            display: flex;
-            /* Pushes the logo to the left and the link group to the right */
-            justify-content: space-between;
-            /* Vertically centers the items inside the navbar row */
-            align-items: center;
-        }
+      --font-body:   'Merriweather', Georgia, serif;     /* prosa */
+      --font-ui:     'Roboto', Arial, sans-serif;        /* tabel, label, UI */
 
-        .nav-logo {
-            /* Makes the branding text bold */
-            font-weight: bold;
-            /* Increases the logo text size slightly */
-            font-size: 1.1rem;
-            /* Removes default hyperlink underlines */
-            text-decoration: none;
-            /* Sets the logo text color */
-            color: #111111;
-        }
+      /* Readability */
+      --line-content: 75ch;   /* ~75 karakter per baris */
+      --font-size-base: 17px; /* minimum 16px; 17 sedikit lebih nyaman */
+      --line-height: 1.75;    /* 1.5–1.8 paling nyaman untuk buku */
 
-        .nav-links {
-            /* Enables Flexbox for the link items to sit side-by-side */
-            display: flex;
-            /* Creates a 20px gap between adjacent navigation links */
-            gap: 20px;
-            /* Removes bullet points from the list format */
-            list-style: none;
-        }
+      --navbar-height: 58px;
+      --section-gap: 4rem;
+      --border-radius: 6px;
+    }
 
-        .nav-links a {
-            /* Removes underlines from navigation links */
-            text-decoration: none;
-            /* Sets a muted gray color for the links */
-            color: #666666;
-        }
+    /* =====================================================
+       RESET & BASE
+       ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .nav-links a:hover {
-            /* Changes the link color to black when a user hovers over it */
-            color: #111111;
-        }
+    html {
+      scroll-behavior: smooth;
+      /* offset scroll supaya heading tidak tertutup navbar */
+      scroll-padding-top: calc(var(--navbar-height) + 1.5rem);
+    }
 
-        /* MAIN CONTENT LAYOUT (OPTIMIZED FOR READABILITY) */
-        .content-container {
-            /* Centers the text column horizontally on the screen */
-            margin: 0 auto;
-            /* Limits the line length to roughly 75 characters for peak reading comfort */
-            max-width: 75ch;
-            /* Adds substantial padding on the top/bottom, and safety padding on the sides */
-            padding: 60px 20px;
-            /* Clears any background overlays by ensuring a transparent layout container */
-            background-color: transparent;
-        }
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height);
+      -webkit-font-smoothing: antialiased;
+    }
 
-        /* dropdown */
-        .dropdown {
-          position: relative;
-        }
-        
-        /* Style the dropdown button */
-        .dropbtn {
-          /* background-color: #4CAF50;
-          color: white; */
-          padding: 12px 16px;
-          font-size: 16px;
-          border: none;
-          cursor: pointer;
-        }
-        
-        /* Dropdown content */
-        .dropdown-content {
-          display: none;
-          position: absolute;
-          background-color: #f9f9f9;
-          min-width: 200px;
-          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        }
-        
-        /* Links inside dropdown content */
-        .dropdown-content a {
-          color: black;
-          padding: 12px 16px;
-          text-decoration: none;
-          display: block;
-        }
-        
-        /* Change color of dropdown links on hover */
-        .dropdown-content a:hover {
-          background-color: #f1f1f1
-        }
-        
-        /* Show the dropdown content on hover */
-        .dropdown:hover .dropdown-content {
-          display: block;
-        }
-        
-        /* Change background color of dropdown button on hover */
-        .dropdown:hover .dropbtn {
-          background-color: #3e8e41;
-        }
-        
-        /* TYPOGRAPHY STYLES */
-        h1 {
-            /* Sets a large, prominent size for the main page title */
-            font-size: 2.5rem;
-            /* Sets a tighter line-height for large headers so they don't look disjointed */
-            line-height: 1.2;
-            /* Changes heading color to a deep black for visual hierarchy */
-            color: #111111;
-            /* Adds a 24px gap below the heading before the paragraph starts */
-            margin-bottom: 24px;
-        }
+    /* =====================================================
+       NAVBAR
+       ===================================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--color-bg);
+      border-bottom: 1.5px solid var(--color-border);
+      height: var(--navbar-height);
+      display: flex;
+      align-items: center;
+    }
 
-        p {
-            /* Adds a 16px gap below paragraphs to cleanly separate blocks of text */
-            margin-bottom: 16px;
-        }
-    </style>
+    .navbar-inner {
+      /* Container yang sama dengan konten — agar sejajar */
+      max-width: calc(var(--line-content) + 4rem);
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    /* Logo / judul situs di navbar */
+    .navbar-brand {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--color-accent);
+      text-decoration: none;
+      white-space: nowrap;
+      margin-right: 2rem;
+      letter-spacing: 0.01em;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .navbar-links a {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      padding: 0.35rem 0.7rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .navbar-links a:hover {
+      background-color: var(--color-bg-alt);
+      color: var(--color-accent);
+    }
+
+    /* Tautan ke halaman Terminologi — beda gaya */
+    .navbar-links .nav-special {
+      color: var(--color-accent);
+      border: 1px solid var(--color-accent-light);
+    }
+
+    .navbar-links .nav-special:hover {
+      background-color: var(--color-accent);
+      color: var(--color-bg);
+    }
+
+    /* Sembunyikan scrollbar navbar di mobile tapi tetap bisa scroll */
+    .navbar-links::-webkit-scrollbar { display: none; }
+
+    /* =====================================================
+       LAYOUT UTAMA — semua konten sejajar di tengah layar
+       ===================================================== */
+    .page-wrapper {
+      max-width: calc(var(--line-content) + 4rem);
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    /* =====================================================
+       HERO / JUDUL HALAMAN
+       ===================================================== */
+    .page-hero {
+      padding: 3rem 0 2.5rem;
+      border-bottom: 1.5px solid var(--color-border);
+      margin-bottom: var(--section-gap);
+    }
+
+    .page-hero-label {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-hero h1 {
+      font-family: var(--font-body);
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-hero .subtitle {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    /* =====================================================
+       SECTIONS
+       ===================================================== */
+    .section {
+      margin-bottom: var(--section-gap);
+    }
+
+    /* H1 yang menjadi anchor navigasi */
+    .section-heading {
+      font-family: var(--font-body);
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1.25;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-bg-alt);
+    }
+
+    /* H2 — sub-heading di dalam section */
+    .sub-heading {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      max-width: var(--line-content);
+      text-align: left;
+    }
+
+    /* =====================================================
+       DAFTAR / LIST
+       ===================================================== */
+    ul, ol {
+      padding-left: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      max-width: var(--line-content);
+    }
+
+    /* Teks italic untuk istilah asing dalam daftar */
+    li em, p em {
+      color: var(--color-text-muted);
+    }
+
+    /* Bold dalam list */
+    li strong {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    /* =====================================================
+       TABEL — pakai font Roboto (UI / bahasa)
+       ===================================================== */
+    .table-wrap {
+      overflow-x: auto;             /* responsive di layar kecil */
+      margin: 1.5rem 0;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--color-border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      min-width: 480px;             /* agar tabel tidak gepeng di mobile */
+    }
+
+    thead tr {
+      background-color: var(--color-bg-alt);
+    }
+
+    thead th {
+      padding: 0.65rem 1rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      color: var(--color-accent);
+      border-bottom: 1.5px solid var(--color-border);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--color-border);
+      transition: background 0.1s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:hover {
+      background-color: var(--color-bg-alt);
+    }
+
+    td {
+      padding: 0.7rem 1rem;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    td:first-child {
+      font-weight: 500;
+      white-space: nowrap;
+      color: var(--color-accent);
+    }
+
+    /* =====================================================
+       LINK
+       ===================================================== */
+    a {
+      color: var(--color-link);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a:hover { color: var(--color-link-hover); }
+
+    /* =====================================================
+       INFO BOX — kotak info / catatan
+       ===================================================== */
+    .info-box {
+      background-color: var(--color-bg-card);
+      border-left: 3px solid var(--color-accent-light);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      font-size: 0.92rem;
+    }
+
+    .info-box strong {
+      font-family: var(--font-ui);
+      display: block;
+      margin-bottom: 0.25rem;
+      color: var(--color-accent);
+    }
+
+    /* =====================================================
+       LABEL TAG — untuk istilah seperti "SVO", "SOV", dll.
+       ===================================================== */
+    .tag {
+      display: inline-block;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      background-color: var(--color-bg-alt);
+      color: var(--color-accent);
+      margin-right: 0.25rem;
+    }
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+    .footer {
+      margin-top: 5rem;
+      border-top: 1.5px solid var(--color-border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: var(--color-text-muted);
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .footer a {
+      color: var(--color-text-muted);
+    }
+
+    .footer-ai-note {
+      margin-top: 0.75rem;
+      padding: 0.6rem 1.25rem;
+      background-color: var(--color-bg-alt);
+      border-radius: 20px;
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.01em;
+    }
+
+    /* =====================================================
+       RESPONSIVE — layar kecil
+       ===================================================== */
+    @media (max-width: 640px) {
+      .page-hero h1 { font-size: 1.8rem; }
+      .section-heading { font-size: 1.35rem; }
+      .page-wrapper { padding: 2rem 1.25rem; }
+      .navbar-inner { padding: 0 1.25rem; }
+      .navbar-brand { margin-right: 1rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- NAVBAR: Contains the branding and website directory links -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <!-- Website Brand/Logo Link -->
-            <a href="#" class="nav-logo">MyWebsite</a>
-            
-            <!-- Navigation Menu Items -->
-            <!-- good practice that navbar menu correspond to page URL -->
-            <ul class="nav-links">
-                <li><a href="/#ke-atas">Halaman Utama</a></li>
-                <li><a href="#tentang">Tentang</a></li>
-                  <div class="dropdown">
-                      <button class="dropbtn">Konten ⮟</button>
-                      <div class="dropdown-content">
-                          <a href="/fonologi.html">Fonologi</a>
-                          <a href="/tata-bahasa.html">Tata Bahasa</a> <!-- tata bahasa mengandung morfologi, sintaks, dan masih banyak lagi -->
-                          <a href="/evolusi.html">Evolusi</a>
-                          <a href="/lainnya.html">Lainnya</a></li> <!-- tautan penting dan referensi tambahan -->
-                      </div>
-                  </div>
-            </ul>
-        </div>
-    </nav>
+  <!-- ==================================================
+       NAVBAR
+       Tautan otomatis menuju anchor id setiap H1
+       ================================================== -->
+  <nav class="navbar" aria-label="Navigasi utama">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="#top">Panduan Conlang</a>
+      <ul class="navbar-links" role="list">
+        <li><a href="#apa-itu">Apa itu?</a></li>
+        <li><a href="#fondasi">Fondasi</a></li>
+        <li><a href="#tulisan">Sistem Tulisan</a></li>
+        <li><a href="#sumber">Sumber Belajar</a></li>
+        <li><a href="terminologi.html" class="nav-special">Terminologi →</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <!-- MAIN CONTENT: The core readable text area constrained to 75 characters maximum -->
-    <main class="content-container">
-        <!-- Main Article Title -->
-        <section id="ke-atas">
-            <h1>The Importance of Line Length in Web Design</h1>
-        
-            <!-- Lorem Ipsum Entry Text Blocks -->
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien an ante 
-                sollicitudin rhoncus. Vivamus elementum elementum interdum. Cras fringilla eros 
-                ut augue sodales efficitur. Mauris id feugiat sem. In tempor, ligula non tempor 
-                volutpat, mi ligula convallis lorem, ac hendrerit neque nisl ut lectus. 
-            </p>
-            
-            <p>
-                Proin hendrerit sollicitudin justo, vel hendrerit mi tincidunt quis. Curabitur 
-                id sodales sem, laoreet tristique lorem. Aliquam id nisl sit amet lacus finibus 
-                vestibulum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, 
-                per inceptos himenaeos. Mauris sollicitudin pretium arcu et sollicitudin.
-            </p>
+  <!-- ==================================================
+       KONTEN UTAMA
+       ================================================== -->
+  <main id="top" class="page-wrapper">
 
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien an ante 
-                sollicitudin rhoncus. Vivamus elementum elementum interdum. Cras fringilla eros 
-                ut augue sodales efficitur. Mauris id feugiat sem. In tempor, ligula non tempor 
-                volutpat, mi ligula convallis lorem, ac hendrerit neque nisl ut lectus. 
-            </p>
-            
-            <p>
-                Proin hendrerit sollicitudin justo, vel hendrerit mi tincidunt quis. Curabitur 
-                id sodales sem, laoreet tristique lorem. Aliquam id nisl sit amet lacus finibus 
-                vestibulum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, 
-                per inceptos himenaeos. Mauris sollicitudin pretium arcu et sollicitudin.
-            </p>
-        </section>
+    <!-- HERO -->
+    <header class="page-hero">
+      <p class="page-hero-label">Panduan Pemula</p>
+      <h1>Panduan Bahasa Buatan</h1>
+      <p class="subtitle">
+        Pengantar merancang <em>conlang</em> — dari fonologi hingga leksikon
+      </p>
+    </header>
 
-        <!-- Main Article Title -->
-        <section id="tentang">
-            <h1>The Importance of Line Length in Web Design</h1>
-        
-            <!-- Lorem Ipsum Entry Text Blocks -->
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien an ante 
-                sollicitudin rhoncus. Vivamus elementum elementum interdum. Cras fringilla eros 
-                ut augue sodales efficitur. Mauris id feugiat sem. In tempor, ligula non tempor 
-                volutpat, mi ligula convallis lorem, ac hendrerit neque nisl ut lectus. 
-            </p>
-            
-            <p>
-                Proin hendrerit sollicitudin justo, vel hendrerit mi tincidunt quis. Curabitur 
-                id sodales sem, laoreet tristique lorem. Aliquam id nisl sit amet lacus finibus 
-                vestibulum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, 
-                per inceptos himenaeos. Mauris sollicitudin pretium arcu et sollicitudin.
-            </p>
-        </section>
+    <!-- ================================================
+         SECTION 1 — Apa itu bahasa buatan?
+         ================================================ -->
+    <section class="section" id="apa-itu" aria-labelledby="heading-apa-itu">
+      <h2 class="section-heading" id="heading-apa-itu">Apa itu bahasa buatan?</h2>
 
-    </main>
+      <p>
+        Bahasa Buatan (<em>constructed language</em>, disingkat <em>conlang</em>) adalah bahasa
+        yang tidak tumbuh secara alami namun dirancang untuk tujuan tertentu.
+        Ada banyak contoh terkenal di dunia nyata:
+      </p>
+
+      <ul>
+        <li><strong>Esperanto</strong> — bahasa bantu internasional (L. L. Zamenhof, 1887)</li>
+        <li><strong>Tolkien's Elvish</strong> — Quenya &amp; Sindarin dari dunia Tolkien</li>
+        <li><strong>Klingon</strong> — dari serial <em>Star Trek</em></li>
+        <li><strong>Dothraki &amp; Valyrian</strong> — dari <em>Game of Thrones</em> (David J. Peterson)</li>
+        <li><strong>Na'vi</strong> — dari film <em>Avatar</em></li>
+      </ul>
+
+      <p>Berdasarkan tujuannya, bahasa buatan dapat dibagi menjadi beberapa jenis:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Jenis</th>
+              <th>Nama Lain</th>
+              <th>Tujuan Utama</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Artlang</td><td>Bahasa seni</td><td>Estetika, fiksi, worldbuilding</td></tr>
+            <tr><td>Auxlang</td><td>Bahasa bantu</td><td>Komunikasi antarbangsa</td></tr>
+            <tr><td>Engelang</td><td>Bahasa rekayasa</td><td>Eksperimen logika/linguistik</td></tr>
+            <tr><td>Loglang</td><td>Bahasa logis</td><td>Menghilangkan ambiguitas</td></tr>
+            <tr><td>Joglang</td><td>Bahasa bercanda</td><td>Humor, parodi</td></tr>
+            <tr><td>Cryptolang</td><td>Bahasa sandi</td><td>Privasi, kode rahasia</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================
+         SECTION 2 — Fondasi bahasa buatan
+         ================================================ -->
+    <section class="section" id="fondasi" aria-labelledby="heading-fondasi">
+      <h2 class="section-heading" id="heading-fondasi">Fondasi bahasa buatan</h2>
+
+      <!-- Fonologi -->
+      <h3 class="sub-heading">Fonologi — Bunyi bahasa</h3>
+      <p>
+        Fonologi adalah sistem bunyi dalam bahasa. Yang perlu ditentukan adalah inventaris konsonan
+        dan vokal, apakah bahasa memiliki nada (seperti Mandarin), serta bagaimana aturan
+        fonotaktiknya. Fonotaktik adalah kombinasi bunyi yang boleh dan tidak boleh ada.
+      </p>
+      <div class="info-box">
+        <strong>Sumber bermanfaat</strong>
+        International Phonetic Alphabet (IPA) — sistem notasi bunyi standar dunia.
+      </div>
+
+      <!-- Morfologi -->
+      <h3 class="sub-heading">Morfologi — Struktur kata</h3>
+      <p>
+        Morfologi adalah bagaimana kata-kata dibentuk dan diubah. Ada beberapa tipe utama:
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Jenis</th><th>Penjelasan</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><em>Isolating</em> (analitik)</td>
+              <td>
+                Setiap kata = satu morfem; tidak berubah bentuk (seperti Mandarin).
+                Contoh: <em>aku makan nasi</em> — tidak berubah untuk waktu lampau.
+              </td>
+            </tr>
+            <tr>
+              <td><em>Agglutinative</em></td>
+              <td>
+                Imbuhan ditempel berurutan; tiap imbuhan punya satu fungsi (seperti
+                bahasa Indonesia &amp; Turki). Contoh: <em>me-makan-kan</em>.
+              </td>
+            </tr>
+            <tr>
+              <td><em>Fusional</em> (infleksional)</td>
+              <td>Satu imbuhan bisa menyatakan banyak fungsi sekaligus (seperti Latin, Rusia).</td>
+            </tr>
+            <tr>
+              <td><em>Polysynthetic</em></td>
+              <td>Satu kata bisa mengandung makna setara satu kalimat utuh (beberapa bahasa asli Amerika).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Selain itu, ada fitur lain yang dapat ditambahkan:</p>
+      <ul>
+        <li>Apakah ada sistem <strong>kasus gramatikal</strong> (nominatif, akusatif, dll.)?</li>
+        <li>Apakah ada <strong>jenis kelamin gramatikal</strong> (maskulin/feminin)?</li>
+        <li>Bagaimana bentuk jamak dibuat?</li>
+        <li>Bagaimana sistem <strong>kala (tense)</strong> atau aspek waktu bekerja?</li>
+      </ul>
+
+      <!-- Sintaksis -->
+      <h3 class="sub-heading">Sintaksis — Susunan kalimat</h3>
+      <p>
+        Sintaksis mengatur bagaimana kata-kata disusun menjadi kalimat.
+        Ada beberapa hal yang perlu ditentukan:
+      </p>
+
+      <p><strong>Urutan kata dasar (<em>basic word order</em>):</strong></p>
+      <ul>
+        <li><span class="tag">SVO</span> Subjek–Verba–Objek (Indonesia, Inggris, Mandarin) → <em>Aku makan apel</em></li>
+        <li><span class="tag">SOV</span> Subjek–Objek–Verba (Jepang, Korea, Latin) → <em>Aku apel makan</em></li>
+        <li><span class="tag">VSO</span> Verba–Subjek–Objek (Arab, Welsh) → <em>Makan aku apel</em></li>
+        <li><span class="tag">VOS</span> <span class="tag">OVS</span> <span class="tag">OSV</span> — lebih langka</li>
+      </ul>
+
+      <ul>
+        <li>Di mana posisi <strong>kata sifat</strong> — sebelum atau sesudah kata benda?</li>
+        <li>Di mana posisi <strong>kata depan / kata belakang</strong> (<em>preposisi</em> atau <em>postposisi</em>)?</li>
+        <li>Bagaimana pertanyaan dibentuk?</li>
+        <li>Bagaimana kalimat negasi dibuat?</li>
+      </ul>
+
+      <!-- Leksikon -->
+      <h3 class="sub-heading">Leksikon — Kosakata</h3>
+      <p>
+        Leksikon adalah kumpulan kata-kata dalam suatu bahasa. Setelah memiliki tata bahasa yang
+        kuat, langkah berikutnya adalah menyusun kata-kata.
+      </p>
+
+      <p><strong>Metode penciptaan kata:</strong></p>
+      <ul>
+        <li><em>A priori</em> — Kosakata dibuat dari nol, tidak mengacu pada bahasa yang sudah ada.</li>
+        <li>
+          <em>A posteriori</em> — Kosakata diambil atau diadaptasi dari bahasa yang sudah ada
+          (seperti Esperanto yang memodifikasi kosakata Eropa).
+        </li>
+      </ul>
+
+      <ul>
+        <li>
+          Apakah ada <strong>kata akar</strong> (<em>root words</em>) yang bisa dikembangkan?
+          Misalkan: <em>ikan</em> + <em>berburu</em> → <em>ikan-buru</em> (pemburu ikan).
+        </li>
+        <li>
+          <strong>Swadesh List</strong> — daftar 100–207 kata dasar universal; titik awal terbaik
+          untuk memperluas bahasa (tubuh, bilangan, kata ganti, alam, tindakan dasar).
+        </li>
+        <li>Apakah ada <strong>register</strong> (bahasa formal vs informal)?</li>
+        <li>Apakah ada kata tabu atau kata halus (<em>honorifics</em>)?</li>
+      </ul>
+    </section>
+
+    <!-- ================================================
+         SECTION 3 — Sistem tulisan
+         ================================================ -->
+    <section class="section" id="tulisan" aria-labelledby="heading-tulisan">
+      <h2 class="section-heading" id="heading-tulisan">Sistem tulisan <span style="font-weight:300;font-size:1.1rem">(opsional)</span></h2>
+
+      <p>
+        Sistem tulisan merupakan langkah opsional namun menambah kesan visual dari sebuah bahasa.
+        Ada beberapa pilihan:
+      </p>
+
+      <ul>
+        <li>Menggunakan <strong>alfabet Latin</strong> dengan aturan baca khusus (paling mudah untuk pemula)</li>
+        <li>
+          Menciptakan <strong>aksara baru</strong> (<em>neography</em>) — membuat sistem tulisan sendiri.
+          Lebih lanjut: <a href="https://neography.info/" target="_blank" rel="noopener">neography.info</a>
+        </li>
+        <li>Menggunakan aksara yang sudah ada (Arab, Hiragana, Hangeul, Devanagari, dll.) sebagai adaptasi</li>
+      </ul>
+
+      <p>Tipe-tipe aksara yang dapat digunakan:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Jenis</th><th>Penjelasan</th><th>Contoh</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><em>Alphabet</em></td><td>Menulis konsonan dan vokal</td><td>Latin, Yunani, Sirilik</td></tr>
+            <tr><td><em>Abjad</em></td><td>Menulis konsonan saja; vokal opsional</td><td>Arab, Persia, Ibrani</td></tr>
+            <tr><td><em>Abugida</em></td><td>Konsonan utama + vokal sebagai diakritik</td><td>Sansekerta, Sunda, Jawa</td></tr>
+            <tr><td><em>Syllabary</em></td><td>Satu simbol = satu suku kata</td><td>Hiragana, Katakana</td></tr>
+            <tr><td><em>Logography</em></td><td>Satu simbol = satu kata / morfem</td><td>Hanzi, Kanji</td></tr>
+            <tr><td><em>Featural</em></td><td>Simbol mencerminkan cara pengucapan</td><td>Hangeul</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================================================
+         SECTION 4 — Sumber belajar tambahan
+         ================================================ -->
+    <section class="section" id="sumber" aria-labelledby="heading-sumber">
+      <h2 class="section-heading" id="heading-sumber">Sumber belajar tambahan</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Jenis</th><th>Sumber</th><th>Catatan</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Komunitas</td>
+              <td><a href="https://www.reddit.com/r/conlangs/" target="_blank" rel="noopener">r/conlangs</a> (Reddit)</td>
+              <td>Komunitas conlanger terbesar</td>
+            </tr>
+            <tr>
+              <td rowspan="3">Referensi</td>
+              <td><a href="https://wals.info/" target="_blank" rel="noopener">WALS Online</a></td>
+              <td>Atlas Tipologi Bahasa Dunia</td>
+            </tr>
+            <tr>
+              <td><a href="https://phoible.org/" target="_blank" rel="noopener">PHOIBLE</a></td>
+              <td><em>Database</em> fonologi</td>
+            </tr>
+            <tr>
+              <td><a href="https://glottolog.org/" target="_blank" rel="noopener">Glottolog</a></td>
+              <td>Katalog bahasa dunia</td>
+            </tr>
+            <tr>
+              <td rowspan="3">Alat Bantu</td>
+              <td>Zompist Phrase Structure Rules</td>
+              <td>Generator tata bahasa acak</td>
+            </tr>
+            <tr>
+              <td><a href="https://vulgarlang.com/" target="_blank" rel="noopener">Vulgar</a></td>
+              <td>Generator bahasa (berbayar)</td>
+            </tr>
+            <tr>
+              <td>Awkwords</td>
+              <td>Generator kata acak</td>
+            </tr>
+            <tr>
+              <td rowspan="4">Buku</td>
+              <td><em>The Language Construction Kit</em></td>
+              <td>Mark Rosenfelder</td>
+            </tr>
+            <tr>
+              <td><em>Advanced Language Construction</em></td>
+              <td>Mark Rosenfelder</td>
+            </tr>
+            <tr>
+              <td><em>The Art of Language Invention</em></td>
+              <td>David J. Peterson (pencipta Dothraki)</td>
+            </tr>
+            <tr>
+              <td><em>In the Land of Invented Languages</em></td>
+              <td>Arika Okrent (sejarah conlang)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box" style="margin-top:2rem">
+        <strong>Lanjutkan ke halaman Terminologi</strong>
+        Untuk referensi istilah linguistik yang dipakai dalam panduan ini, lihat
+        <a href="terminologi.html">Daftar Terminologi Penting →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================================================
+       FOOTER
+       ================================================== -->
+  <footer class="footer">
+    <div>
+      Panduan Bahasa Buatan &nbsp;·&nbsp;
+      Dibuat untuk keperluan belajar &amp; eksplorasi linguistik
+    </div>
+    <div class="footer-ai-note">
+      🤖 Halaman ini dibuat dengan bantuan <strong>Claude (Anthropic)</strong> berdasarkan
+      dokumen sumber, dan mungkin mengandung ketidakakuratan. Selalu verifikasi informasi
+      dari sumber linguistik primer.
+    </div>
+  </footer>
 
 </body>
 </html>
