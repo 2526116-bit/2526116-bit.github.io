@@ -347,6 +347,59 @@
       .navbar-brand { margin-right: 1rem; }
       td:first-child { min-width: 8.5rem; }
     }
+    
+    /* =====================================================
+       SEARCH BAR CSS INTERACTION
+       ===================================================== */
+    .hero-flex-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap; /* Menjaga agar responsif di layar HP */
+    }
+
+    .hero-flex-container h1 {
+      margin-bottom: 0 !important; /* Reset margin bawaan h1 */
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .search-box-container {
+      flex: 1;
+      max-width: 350px;
+      min-width: 260px;
+    }
+
+    #searchTerminologi {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--border-radius);
+      background-color: var(--color-bg-card);
+      color: var(--color-text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #searchTerminologi:focus {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(107, 76, 42, 0.15);
+    }
+
+    /* Modifikasi responsif tambahan */
+    @media (max-width: 640px) {
+      .hero-flex-container {
+        gap: 1rem;
+      }
+      .search-box-container {
+        max-width: 100%;
+      }
+    }
+    
   </style>
 </head>
 <body>
@@ -387,10 +440,18 @@
     <!-- HERO -->
     <header class="page-hero">
       <p class="page-hero-label">Referensi</p>
-      <h1>Daftar Terminologi Penting</h1>
+      <div class="hero-flex-container">
+        <h1>Daftar Terminologi Penting</h1>
+        <div class="search-box-container">
+          <input type="text" id="searchTerminologi" placeholder="Cari istilah atau penjelasan..." autocomplete="off">
+        </div>
+      </div>
       <p class="subtitle">
         Kosakata linguistik yang berguna saat membangun bahasa buatan
       </p>
+      <div id="search-empty-message" style="display: none; margin-top: 1.5rem; color: var(--color-text-muted); font-style: italic;">
+        Istilah atau penjelasan yang Anda cari tidak ditemukan.
+      </div>
     </header>
 
     <!-- ================================================
@@ -594,6 +655,51 @@
       dokumen sumber.
     </div>
   </footer>
+
+<script>
+    document.getElementById('searchTerminologi').addEventListener('input', function() {
+      const keyword = this.value.toLowerCase().trim();
+      const sections = document.querySelectorAll('.section');
+      const emptyMessage = document.getElementById('search-empty-message');
+      let globalMatchCount = 0;
+
+      sections.forEach(section => {
+        const rows = section.querySelectorAll('tbody tr:not(.note-row)'); // Kecualikan baris catatan jika ada
+        let sectionMatchCount = 0;
+
+        rows.forEach(row => {
+          const cells = row.getElementsByTagName('td');
+          if (cells.length >= 2) {
+            const istilah = cells[0].textContent.toLowerCase();
+            const penjelasan = cells[1].textContent.toLowerCase();
+
+            // Memeriksa apakah kata kunci ada di kolom istilah ATAU penjelasan
+            if (istilah.includes(keyword) || penjelasan.includes(keyword)) {
+              row.style.display = '';
+              sectionMatchCount++;
+              globalMatchCount++;
+            } else {
+              row.style.display = 'none';
+            }
+          }
+        });
+
+        // Jika tidak ada baris yang cocok dalam satu kategori, sembunyikan seluruh kategori tersebut
+        if (sectionMatchCount === 0 && keyword !== '') {
+          section.style.display = 'none';
+        } else {
+          section.style.display = '';
+        }
+      });
+
+      // Menampilkan pesan error jika semua kata/istilah tidak ada yang cocok
+      if (globalMatchCount === 0 && keyword !== '') {
+        emptyMessage.style.display = 'block';
+      } else {
+        emptyMessage.style.display = 'none';
+      }
+    });
+  </script>
 
 </body>
 </html>
